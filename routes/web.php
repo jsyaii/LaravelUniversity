@@ -17,9 +17,6 @@ Route::get('/home', function () {
     return view("home");
 });
 
-// Route::get('/search', function () {
-//     return view("search");
-// });
 
 Route::get('/search', [Search::class, "showRecords"]);
 Route::post('/search', [Search::class, 'searchRecords'])->name('search.records');
@@ -29,36 +26,3 @@ Route::get('/manage/deleteRecord/{id}', [Users::class, "deleteRecord"]);
 Route::get('manage/showForm', [Users::class, "show_form"]);
 Route::get('/manage/editName/{id}', [Users::class, "show_edit_form"]);
 Route::post('/manage/create', [Users::class, "createRecord"]);
-
-
-
-
-
-// Route::get("/other", function(){
-//     echo "other route";
-// });
-
-
-
-// Route::get("/profile/{profileid?}", function($profileid = "default") {
-//     echo "profileid: " . $profileid;
-// });
-
-// Route::get("/login", function() {
-//     echo "login Page....";
-
-// })->name("login");
-
-// Route::get("/home", function() {
-//     return redirect()->route("login");
-// });
-
-// Route::get("/user/profile/{profileid}", [Users::class, 'show']);
-
-// Route::get("/testform", function() {
-//     return view("testform");
-// });
-
-// Route::post("/formsubmit", function(){
-//     echo "post request recieved";
-// });

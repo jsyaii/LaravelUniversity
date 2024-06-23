@@ -12,6 +12,15 @@ class Users extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    /**
+     * @var array Holds template data to be passed to views.
+     */
+    protected $TPL;
+
+    /**
+     * Constructor to initialize template variables.
+     */
+
     public function __construct()
     {
         $this->TPL = [];
@@ -21,6 +30,12 @@ class Users extends Controller
         $this->TPL['show_edit_form'] = false;
     }
 
+    /**
+     * Retrieves all users from the database and displays them.
+     *
+     * @return \Illuminate\View\View
+     */
+
     public function show_users()
     {
         $records = DB::select("SELECT * FROM users");
@@ -29,17 +44,36 @@ class Users extends Controller
         return view("manage", $this->TPL);
     }
 
+    /**
+     * Shows the user creation form.
+     *
+     * @return \Illuminate\View\View
+     */
+
     public function show_form()
     {
         $this->TPL['show_create'] = true;
         return $this->show_users();
     }
 
+    /**
+     * Shows the user edit form.
+     *
+     * @return \Illuminate\View\View
+     */
     public function show_edit_form()
     {
         $this->TPL['show_edit_form'] = true;
         return $this->show_users();
     }
+
+    /**
+     * Changes the name of a user to 'Bob' for the given user ID. This is just more for me to test to see if the 
+     * SQL query will execute.
+     *
+     * @param int $id User ID
+     * @return \Illuminate\View\View
+     */
 
     public function changeName($id)
     {
@@ -49,6 +83,13 @@ class Users extends Controller
         return $this->show_users();
     }
 
+    /**
+     * Updates a user's details with the provided information.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id User ID
+     * @return \Illuminate\View\View
+     */
     public function changeName2(Request $request, $id)
     {
         $this->TPL['updated_name'] = $request->input("new_name");
@@ -73,7 +114,7 @@ class Users extends Controller
         if (!empty($this->TPL['updated_email'])) {
             $updateData['email'] = $this->TPL['updated_email'];
         }
-        
+
         if (!empty($updateData)) {
             DB::table('users')
                 ->where('id', $id)
@@ -86,7 +127,12 @@ class Users extends Controller
     }
 
 
-
+    /**
+     * Deletes a user with the given ID.
+     *
+     * @param int $id User ID
+     * @return \Illuminate\View\View
+     */
 
     public function deleteRecord($id)
     {
@@ -96,6 +142,12 @@ class Users extends Controller
         return $this->show_users();
     }
 
+    /**
+     * Creates a new user with the provided details.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
+     */
     public function createRecord(Request $request)
     {
         $this->TPL['first_name'] = $request->input("first_name");
